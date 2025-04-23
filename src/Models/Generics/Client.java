@@ -17,10 +17,10 @@ public class Client {
 
 
         GenericPair studentPsp = new GenericPair();
-        studentPsp.setFirst("Vishnu");
+        //studentPsp.setFirst("Vishnu");
         studentPsp.setSecond(99);
 
-        AnimalUtility.printAnimalNames();
+        //AnimalUtility.printAnimalNames();
 
 
     }
