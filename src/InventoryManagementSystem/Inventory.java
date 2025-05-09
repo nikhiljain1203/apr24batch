@@ -11,7 +11,13 @@ public class Inventory<T extends Item> {
         items = new HashMap<>();
     }
 
-    public void addItem(T item) {
+    public void addItem(T item) throws InvalidQuantityException {
+        if(item.getQuantity() < 0) {
+            throw new InvalidQuantityException("Quantity cannot be negative " +  item.getId());
+        }
+        if(items.containsKey(item.getId())) {
+            throw new DuplicateItemException("Item already exists");
+        }
         items.put(item.getId(), item);
     }
 
