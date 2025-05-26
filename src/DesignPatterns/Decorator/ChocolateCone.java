@@ -2,8 +2,10 @@ package DesignPatterns.Decorator;
 
 public class ChocolateCone implements IceCream {
     IceCream iceCream;
+
     public ChocolateCone() {
     }
+
     public ChocolateCone(IceCream iceCream) {
         this.iceCream = iceCream;
     }
