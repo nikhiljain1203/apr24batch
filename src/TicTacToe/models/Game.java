@@ -1,5 +1,7 @@
 package TicTacToe.models;
 
+import TicTacToe.strategies.WinningStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,5 +88,9 @@ public class Game {
 
     public void setWinningStrategies(List<WinningStrategy> winningStrategies) {
         this.winningStrategies = winningStrategies;
+    }
+
+    public void display() {
+        board.display();
     }
 }
