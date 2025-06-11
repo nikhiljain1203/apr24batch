@@ -32,7 +32,6 @@ public class Game {
         this.players = players;
         this.winningStrategies = winningStrategies;
         this.status = GameStatus.IN_PROGRESS;
-        this.winningStrategies = new ArrayList<>();
     }
 
     public Board getBoard() {
@@ -114,6 +113,8 @@ public class Game {
         } else if (checkDraw()) {
             setStatus(GameStatus.DRAW);
         }
+
+        nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
     }
 
     private boolean vaildate(Move move) {
@@ -151,5 +152,28 @@ public class Game {
 
     public boolean checkDraw() {
         return moves.size() == board.getSize() * board.getSize();
+    }
+
+    public void undoMove() {
+        if(moves.size() == 0 ) {
+            System.out.println("No moves to undo.");
+            return;
+        }
+
+        Move lastMove = moves.get(moves.size() - 1);
+        moves.remove(moves.size() - 1);
+
+        lastMove.getCell().setStatus(CellStatus.EMPTY);
+        lastMove.getCell().setPlayer(null);
+
+        nextPlayerIndex--;
+        nextPlayerIndex = (nextPlayerIndex + players.size()) % players.size();
+
+        for(WinningStrategy winningStrategy : winningStrategies) {
+            winningStrategy.undoMove(lastMove);
+        }
+
+        setStatus(GameStatus.IN_PROGRESS);
+        setWinner(null);
     }
 }
