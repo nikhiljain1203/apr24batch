@@ -32,6 +32,7 @@ public class Game {
         this.players = players;
         this.winningStrategies = winningStrategies;
         this.status = GameStatus.IN_PROGRESS;
+        this.winningStrategies = new ArrayList<>();
     }
 
     public Board getBoard() {
@@ -92,5 +93,63 @@ public class Game {
 
     public void display() {
         board.display();
+    }
+
+    public void makeMove() {
+        Player currentPlayer = players.get(nextPlayerIndex);
+        System.out.println("It is " + currentPlayer.getName() + "'s turn");
+
+        Move move = currentPlayer.makeMove(board);
+
+        if(!vaildate(move)) {
+            System.out.println("Invalid move. Try again.");
+            return;
+        }
+
+        updateGame(move, currentPlayer);
+
+        if(checkWinner(move)) {
+            winner = currentPlayer;
+            setStatus(GameStatus.SUCCESS);
+        } else if (checkDraw()) {
+            setStatus(GameStatus.DRAW);
+        }
+    }
+
+    private boolean vaildate(Move move) {
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        if(row < 0 || row >= board.getSize() || col < 0 || col >= board.getSize()) {
+            return false;
+        }
+
+        return move.getCell().getStatus().equals(CellStatus.EMPTY);
+    }
+
+    private void updateGame(Move move, Player currentPlayer) {
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        Cell cellToChange = board.getGrid().get(row).get(col);
+        cellToChange.setStatus(CellStatus.OCCUPIED);
+        cellToChange.setPlayer(currentPlayer);
+
+        move.setCell(cellToChange);
+        move.setPlayer(currentPlayer);
+        moves.add(move);
+    }
+
+    public boolean checkWinner(Move move) {
+        for(WinningStrategy winningStrategy : winningStrategies) {
+            if(winningStrategy.checkWinner(this.board, move)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkDraw() {
+        return moves.size() == board.getSize() * board.getSize();
     }
 }

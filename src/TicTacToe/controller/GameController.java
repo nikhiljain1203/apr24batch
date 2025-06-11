@@ -16,7 +16,7 @@ public class GameController {
     }
     // makeMove
     public void makeMove(Game game) {
-
+        game.makeMove();
     }
     // getGameStatus
     public GameStatus getGameStatus(Game game) {
@@ -28,6 +28,7 @@ public class GameController {
     }
 
     public String getWinner(Game game) {
+        return null;
     }
     // undoMove
 }

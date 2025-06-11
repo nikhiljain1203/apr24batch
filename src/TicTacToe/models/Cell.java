@@ -48,7 +48,7 @@ public class Cell {
         if(status == CellStatus.EMPTY) {
             System.out.print("| - |");
         } else if (status == CellStatus.OCCUPIED) {
-            System.out.print("| " + player.getSymbol() + " |");
+            System.out.print("| " + player.getSymbol().getSymbol() + " |");
         }
     }
 }
